@@ -26,7 +26,7 @@
         {% for service in sh %}
             <div>
                 <a href="/services/{{service.service.id}}">{{service.service.name}}</a> ({{service.service.field}})
-                <p style="margin: 0; display: inline-block;"> ❱❱ {{service.price}}</p>
+                <p style="margin: 0; display: inline-block;"> ❱❱ {{service.price}} BHD</p>
                 <p style="margin: 0; display: inline-block;"> ❱❱ {{ service.request_date }}</p>
                 <p style="float: right; margin: 0;">
                     by <a href="/company/{{service.service.company.user}}">{{service.service.company.user}}</a>
@@ -37,7 +37,7 @@
     {% else %}
         {% for service in services %}
         <div class="list_services_profile">
-            <a href="/services/{{service.id}}">{{service.name}}</a>-- {{service.price_hour}}€/hour
+            <a href="/services/{{service.id}}">{{service.name}}</a>-- {{service.price_hour}} BHD/hour
             <div class="line"></div>
         </div>
         {% endfor %}
