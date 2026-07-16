@@ -6,6 +6,9 @@
 {% block content %}
     <p class="title">Service Request Details</p>
     <form method="POST">
+        {% csrf_token %}
+        {{form}}
         <button type="submit">Request</button>
     </form>
+
 {% endblock %}
