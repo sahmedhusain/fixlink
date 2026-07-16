@@ -149,3 +149,93 @@ class NetfixTestCase(TestCase):
         self.assertEqual(most_requested[0].request_count, 2)
         self.assertEqual(most_requested[1], service_ac)
         self.assertEqual(most_requested[1].request_count, 1)
+
+    def test_booking_status_workflow(self):
+        service = Service.objects.create(
+            company=self.company2,
+            name='Wire Change',
+            description='Description',
+            price_hour=10.00,
+            field='Electricity'
+        )
+        booking = RequestedService.objects.create(
+            service=service,
+            customer=self.customer,
+            address='123 Main St',
+            hours=2.00,
+            price=20.00
+        )
+        self.assertEqual(booking.status, 'Pending')
+
+        # Test company confirmation
+        self.client.force_login(self.company_user2)
+        response = self.client.post(f'/services/booking/{booking.id}/confirm/')
+        booking.refresh_from_db()
+        self.assertEqual(booking.status, 'Confirmed')
+
+        # Test company completion
+        response = self.client.post(f'/services/booking/{booking.id}/complete/')
+        booking.refresh_from_db()
+        self.assertEqual(booking.status, 'Completed')
+
+    def test_booking_cancellation(self):
+        service = Service.objects.create(
+            company=self.company2,
+            name='Wire Change',
+            description='Description',
+            price_hour=10.00,
+            field='Electricity'
+        )
+        booking = RequestedService.objects.create(
+            service=service,
+            customer=self.customer,
+            address='123 Main St',
+            hours=2.00,
+            price=20.00
+        )
+
+        # Test customer cancellation of pending booking
+        self.client.force_login(self.customer_user)
+        response = self.client.post(f'/services/booking/{booking.id}/cancel/')
+        booking.refresh_from_db()
+        self.assertEqual(booking.status, 'Cancelled')
+
+    def test_booking_rating_recalculation(self):
+        service = Service.objects.create(
+            company=self.company2,
+            name='Wire Change',
+            description='Description',
+            price_hour=10.00,
+            field='Electricity'
+        )
+        booking1 = RequestedService.objects.create(
+            service=service,
+            customer=self.customer,
+            address='Address',
+            hours=2.00,
+            price=20.00,
+            status='Completed'
+        )
+        booking2 = RequestedService.objects.create(
+            service=service,
+            customer=self.customer,
+            address='Address',
+            hours=3.00,
+            price=30.00,
+            status='Completed'
+        )
+
+        # Log in customer to rate them
+        self.client.force_login(self.customer_user)
+
+        # Rate booking1 with 4
+        self.client.post(f'/services/booking/{booking1.id}/rate/', {'rating': 4})
+        self.company2.refresh_from_db()
+        self.assertEqual(self.company2.rating, 4)
+
+        # Rate booking2 with 2
+        self.client.post(f'/services/booking/{booking2.id}/rate/', {'rating': 2})
+        self.company2.refresh_from_db()
+        # Average is (4 + 2) / 2 = 3
+        self.assertEqual(self.company2.rating, 3)
+
