@@ -6,5 +6,7 @@ urlpatterns = [
     path('create/', v.create, name='services_create'),
     path('<int:id>', v.index, name='index'),
     path('<int:id>/request_service/', v.request_service, name='request_service'),
+    path('most_requested/', v.most_requested, name='most_requested'),
     path('<slug:field>/', v.service_field, name='services_field'),
+
 ]
