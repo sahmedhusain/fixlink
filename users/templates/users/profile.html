@@ -1,42 +1,42 @@
 {% extends 'main/base.html' %}
 {% block title %}
-    {{ user.username }}'s Dashboard
+    {{ user.username }}'s Profile
 {% endblock %}
 
 {% block content %}
     {% if user.is_customer %}
-        <!-- ================= CUSTOMER DASHBOARD ================= -->
+        <!-- ================= CUSTOMER PROFILE INFO ================= -->
         <div class="profile-header-card">
             <div class="user-meta">
-                <span class="user-badge customer-badge">Customer</span>
+                <span class="user-badge customer-badge">Customer Profile</span>
                 <h1>{{ user.username }}</h1>
                 <p class="email">{{ user.email }}</p>
-                <p class="age-info">{{ user_age }} years old</p>
+                <p class="age-info">Age: {{ user_age }} years old</p>
             </div>
         </div>
 
-        <!-- KPI Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-label">Total Spent</span>
-                <span class="stat-val">{{ total_spent|floatformat:2 }} BHD</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Bookings Placed</span>
-                <span class="stat-val">{{ bookings_count }}</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Completed Jobs</span>
-                <span class="stat-val">{{ completed_count }}</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Pending Bookings</span>
-                <span class="stat-val">{{ pending_count }}</span>
-            </div>
+        <p class="title">Customer Information</p>
+        <div class="dashboard-table-container" style="max-width: 600px; margin: 0 auto 40px auto;">
+            <table class="dashboard-table">
+                <tbody>
+                    <tr>
+                        <td class="font-bold">Username</td>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Email Address</td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Age</td>
+                        <td>{{ user_age }} y/o</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <!-- Bookings History -->
-        <p class="title">My Booking History</p>
+        <p class="title">Requested Services History</p>
         <div class="dashboard-table-container">
             {% if sh %}
                 <table class="dashboard-table">
@@ -49,7 +49,6 @@
                             <th>Hours</th>
                             <th>Cost</th>
                             <th>Status</th>
-                            <th>Actions / Reviews</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,58 +63,23 @@
                                 <td>
                                     <span class="status-badge badge-{{ booking.status|lower }}">{{ booking.status }}</span>
                                 </td>
-                                <td>
-                                    {% if booking.status == 'Pending' %}
-                                        <form method="POST" action="/services/booking/{{ booking.id }}/cancel/">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn-danger btn-sm">Cancel</button>
-                                        </form>
-                                    {% elif booking.status == 'Completed' %}
-                                        {% if booking.rating %}
-                                            <div class="star-rating">
-                                                {% for i in "12345" %}
-                                                    {% if forloop.counter <= booking.rating %}
-                                                        <span class="star filled">★</span>
-                                                    {% else %}
-                                                        <span class="star">☆</span>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
-                                        {% else %}
-                                            <form method="POST" action="/services/booking/{{ booking.id }}/rate/" class="rate-form">
-                                                {% csrf_token %}
-                                                <select name="rating" required class="rate-select">
-                                                    <option value="" disabled selected>Rate</option>
-                                                    <option value="5">5 ★ (Excellent)</option>
-                                                    <option value="4">4 ★ (Good)</option>
-                                                    <option value="3">3 ★ (Average)</option>
-                                                    <option value="2">2 ★ (Poor)</option>
-                                                    <option value="1">1 ★ (Terrible)</option>
-                                                </select>
-                                                <button type="submit" class="btn-primary btn-sm">Submit</button>
-                                            </form>
-                                        {% endif %}
-                                    {% else %}
-                                        <span class="text-secondary">-</span>
-                                    {% endif %}
-                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <p class="no-data">You haven't requested any services yet.</p>
+                <p class="no-data">No requested services history.</p>
             {% endif %}
         </div>
 
     {% else %}
-        <!-- ================= COMPANY DASHBOARD ================= -->
+        <!-- ================= COMPANY PROFILE INFO ================= -->
         <div class="profile-header-card">
             <div class="user-meta">
-                <span class="user-badge company-badge">Company</span>
+                <span class="user-badge company-badge">Company Profile</span>
                 <h1>{{ user.username }}</h1>
                 <p class="email">{{ user.email }}</p>
-                <p class="field-info">{{ user.company.field }} Provider</p>
+                <p class="field-info">Field: {{ user.company.field }}</p>
                 <div class="company-rating-show">
                     <span class="label">Average Rating:</span>
                     {% if user.company.rating %}
@@ -135,120 +99,38 @@
             </div>
         </div>
 
-        {% if request.user.username == user.username %}
-            <!-- KPI Stats Grid for the Logged-in Company Owner -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="stat-label">Total Revenue</span>
-                    <span class="stat-val">{{ total_revenue|floatformat:2 }} BHD</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Completed Jobs</span>
-                    <span class="stat-val">{{ completed_jobs }}</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Active Jobs</span>
-                    <span class="stat-val">{{ active_jobs }}</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Pending Approvals</span>
-                    <span class="stat-val">{{ pending_approvals }}</span>
-                </div>
-            </div>
-
-            <!-- Incoming Service Bookings CRM Table -->
-            <p class="title">Incoming Service Requests</p>
-            <div class="dashboard-table-container">
-                {% if incoming_bookings %}
-                    <table class="dashboard-table">
-                        <thead>
-                            <tr>
-                                <th>Customer</th>
-                                <th>Service Name</th>
-                                <th>Requested Date</th>
-                                <th>Hours</th>
-                                <th>Total Revenue</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for booking in incoming_bookings %}
-                                <tr>
-                                    <td><a href="/customer/{{ booking.customer.user.username }}">{{ booking.customer.user.username }}</a></td>
-                                    <td class="font-bold">{{ booking.service.name }}</td>
-                                    <td>{{ booking.request_date|date:"Y-m-d H:i" }}</td>
-                                    <td>{{ booking.hours }} hrs</td>
-                                    <td class="font-bold text-accent">{{ booking.price|floatformat:2 }} BHD</td>
-                                    <td>
-                                        <span class="status-badge badge-{{ booking.status|lower }}">{{ booking.status }}</span>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons-group">
-                                            {% if booking.status == 'Pending' %}
-                                                <form method="POST" action="/services/booking/{{ booking.id }}/confirm/" style="display: inline-block;">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn-success btn-sm">Confirm</button>
-                                                </form>
-                                                <form method="POST" action="/services/booking/{{ booking.id }}/cancel/" style="display: inline-block;">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn-danger btn-sm">Reject</button>
-                                                </form>
-                                            {% elif booking.status == 'Confirmed' %}
-                                                <form method="POST" action="/services/booking/{{ booking.id }}/complete/" style="display: inline-block;">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn-primary btn-sm">Complete</button>
-                                                </form>
-                                                <form method="POST" action="/services/booking/{{ booking.id }}/cancel/" style="display: inline-block;">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn-danger btn-sm">Cancel</button>
-                                                </form>
-                                            {% else %}
-                                                <span class="text-secondary">-</span>
-                                            {% endif %}
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <p class="no-data">No incoming service bookings requests yet.</p>
-                {% endif %}
-            </div>
-
-            <!-- Customer Relationship Directory CRM Panel -->
-            <p class="title">Top Customer Relationships</p>
-            <div class="dashboard-table-container">
-                {% if crm_customers %}
-                    <table class="dashboard-table">
-                        <thead>
-                            <tr>
-                                <th>Customer Username</th>
-                                <th>Customer Email</th>
-                                <th>Total Bookings</th>
-                                <th>Total Revenue Generated</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for customer in crm_customers %}
-                                <tr>
-                                    <td class="font-bold"><a href="/customer/{{ customer.username }}">{{ customer.username }}</a></td>
-                                    <td>{{ customer.email }}</td>
-                                    <td>{{ customer.bookings }}</td>
-                                    <td class="font-bold text-accent">{{ customer.spent|floatformat:2 }} BHD</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <p class="no-data">No customer transaction history available yet.</p>
-                {% endif %}
-            </div>
-        {% endif %}
+        <p class="title">Company Information</p>
+        <div class="dashboard-table-container" style="max-width: 600px; margin: 0 auto 40px auto;">
+            <table class="dashboard-table">
+                <tbody>
+                    <tr>
+                        <td class="font-bold">Company Name</td>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Email Address</td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Field of Work</td>
+                        <td>{{ user.company.field }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Average Rating</td>
+                        <td>
+                            {% if user.company.rating %}
+                                {{ user.company.rating }} / 5 ★
+                            {% else %}
+                                Not rated yet
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Available Services Section -->
-        <p class="title">Available Services Provided</p>
+        <p class="title">Provided Services</p>
         <div class="services_list">
             {% if services %}
                 {% for service in services %}

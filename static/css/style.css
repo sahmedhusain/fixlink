@@ -713,3 +713,28 @@ form textarea {
   padding: 30px;
 }
 
+.nav-logo {
+  height: 38px;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 15px;
+  filter: drop-shadow(0 0 5px rgba(99, 102, 241, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.logo-item {
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+.logo-item:hover {
+  background: none !important;
+  border-color: transparent !important;
+}
+
+.logo-item:hover .nav-logo {
+  transform: scale(1.05);
+}
+
+
