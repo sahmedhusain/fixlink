@@ -23,8 +23,18 @@ def customer_profile(request, name):
 
     sh = RequestedService.objects.filter(customer=customer).order_by("-request_date")
 
+    from django.db.models import Sum
+    total_spent = sh.exclude(status='Cancelled').aggregate(Sum('price'))['price__sum'] or 0.00
+    bookings_count = sh.count()
+    completed_count = sh.filter(status='Completed').count()
+    pending_count = sh.filter(status='Pending').count()
+
     return render(request, 'users/profile.html', {
         'user': user,
         'user_age': age,
-        'sh': sh
+        'sh': sh,
+        'total_spent': total_spent,
+        'bookings_count': bookings_count,
+        'completed_count': completed_count,
+        'pending_count': pending_count
     })
