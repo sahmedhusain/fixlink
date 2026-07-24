@@ -1,26 +1,28 @@
 {% extends 'main/base.html' %}
 {% block title %}
-    {{field}} Services List
+    {{ field }} Services List - Netfix
 {% endblock %}
 {% block content %}
-
     {% if services.all|length != 0 %}
-        <p class="title">{{field}} Services</p>
-        <ul class='services_list'>
+        <p class="title">{{ field }} Services</p>
+        <div class="services_list">
             {% for service in services.all %}
-                <div style="display: ruby;">
-                    <div class='service_list_info'>
-                        <li><a href="/services/{{service.id}}">{{ service.name }}</a>-- {{ service.price_hour }} BHD/hour</li>
+                <div class="service-item-card">
+                    <div class="service_list_info">
+                        <h3><a href="/services/{{ service.id }}">{{ service.name }}</a></h3>
                         <pre>{{ service.description }}</pre>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin: 6px 0 0 0;">
+                            by <a href="/company/{{ service.company.user }}" class="font-bold">{{ service.company.user }}</a>
+                        </p>
                     </div>
-                    <p style="display:block; margin: 0; float: right;font-size: small; margin-right: 30px;">by <a href="/company/{{service.company.user}}">{{service.company.user}}</a></p>
+                    <div style="margin-top: 14px;">
+                        <span class="price-hour-tag">{{ service.price_hour }} BHD/hour</span>
+                    </div>
                 </div>
-                {% if forloop.counter != services.all|length %}
-                    <div class="line"></div>
-                {% endif %}
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        <h2>Sorry. No {{field}} services available</h2>
+        <p class="title">{{ field }} Services</p>
+        <p class="no-data">Sorry, no {{ field }} services are currently available.</p>
     {% endif %}
 {% endblock %}

@@ -1,15 +1,26 @@
 {% extends 'main/base.html' %}
 {% block title %}
-    {{ service.name }}
+    {{ service.name }} - Netfix
 {% endblock %}
 {% block content %}
-    <div class='service_info_header'>
-        <h1>{{service.name}} -- {{service.price_hour}} BHD/hour</h1>
-        <h5>by <a href="/company/{{service.company.user}}">{{service.company.user}}</a></h5>
+    <div class="service_info_header">
+        <h1>{{ service.name }}</h1>
+        <h5>Provided by <a href="/company/{{ service.company.user }}" class="font-bold">{{ service.company.user }}</a></h5>
     </div>
-    <h3>{{service.field}}</h3>
-    <p style="text-align: left;">{{service.description}}</p>
+
+    <div style="margin-bottom: 24px;">
+        <span class="user-badge company-badge" style="font-size: 0.9rem; padding: 6px 16px;">{{ service.field }}</span>
+        <span class="price-hour-tag" style="margin-left: 12px; font-size: 0.95rem;">{{ service.price_hour }} BHD/hour</span>
+    </div>
+
+    <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 24px; margin-bottom: 32px;">
+        <h4 style="margin: 0 0 12px 0; color: var(--text-muted);">Service Description</h4>
+        <p style="margin: 0; white-space: pre-wrap; font-size: 1.05rem; line-height: 1.7; color: var(--text-main);">{{ service.description }}</p>
+    </div>
+
     {% if request.user.is_customer %}
-        <a href="/services/{{service.id}}/request_service/" class="like_button">Request Service</a>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/services/{{ service.id }}/request_service/" class="like_button">Request Service</a>
+        </div>
     {% endif %}
 {% endblock %}

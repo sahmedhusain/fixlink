@@ -1,12 +1,13 @@
 {% extends 'main/base.html' %} 
 {% block title %}
-  Customer Registration
-{%endblock %}
+  Customer Registration - Netfix
+{% endblock %}
 
 {% block content %}
+    <p class="title">Customer Registration</p>
     <form method="POST">
         {% csrf_token %}
-        {{form}}
-        <button type="submit" name="register">Register</button>
+        {{ form }}
+        <button type="submit" name="register">Register Account</button>
     </form>
 {% endblock %}

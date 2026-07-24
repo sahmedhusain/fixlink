@@ -1,14 +1,13 @@
 {% extends 'main/base.html' %}
 {% block title %}
-    Request Service
+    Request Service - Netfix
 {% endblock %}
 
 {% block content %}
     <p class="title">Service Request Details</p>
     <form method="POST">
         {% csrf_token %}
-        {{form}}
-        <button type="submit">Request</button>
+        {{ form }}
+        <button type="submit">Confirm & Request Service</button>
     </form>
-
 {% endblock %}

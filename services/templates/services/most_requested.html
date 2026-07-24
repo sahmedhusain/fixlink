@@ -1,26 +1,28 @@
 {% extends 'main/base.html' %}
 {% block title %}
-    Most Requested Services
+    Most Requested Services - Netfix
 {% endblock %}
 {% block content %}
     <p class="title">Most Requested Services</p>
-    <div class='services_list'>
+    <div class="services_list">
         {% if services %}
             {% for service in services %}
-                <div style="display: ruby;">
-                    <div class='service_list_info'>
-                        <li><a href="/services/{{service.id}}">{{ service.name }}</a>-- {{ service.price_hour }} BHD/hour</li>
+                <div class="service-item-card">
+                    <div class="service_list_info">
+                        <h3><a href="/services/{{ service.id }}">{{ service.name }}</a></h3>
                         <pre>{{ service.description }}</pre>
-                        <p style="font-size: small; color: gray; margin: 0 0 10px 20px;">Requested {{ service.request_count }} times</p>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin: 6px 0 0 0;">
+                            by <a href="/company/{{ service.company.user }}" class="font-bold">{{ service.company.user }}</a>
+                        </p>
                     </div>
-                    <p style="display:block; margin: 0; float: right;font-size: small; margin-right: 30px;">by <a href="/company/{{service.company.user}}">{{service.company.user}}</a></p>
+                    <div style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center;">
+                        <span class="user-badge customer-badge">Requested {{ service.request_count }} times</span>
+                        <span class="price-hour-tag">{{ service.price_hour }} BHD/hour</span>
+                    </div>
                 </div>
-                {% if not forloop.last %}
-                    <div class="line"></div>
-                {% endif %}
             {% endfor %}
         {% else %}
-            <h2>Sorry No services requested yet</h2>
+            <p class="no-data">No services have been requested yet.</p>
         {% endif %}
-     </div>
+    </div>
 {% endblock %}

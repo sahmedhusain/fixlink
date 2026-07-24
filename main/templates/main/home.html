@@ -1,14 +1,13 @@
 {% extends 'main/base.html' %}
 {% block title %}
-    NetFix - Home & CRM Dashboard
+    Netfix - Home & On-Demand Services
 {% endblock %}
 
 {% block content %}
     {% if is_customer %}
-        <!-- ================= CUSTOMER DASHBOARD ================= -->
+        <!-- Customer Dashboard -->
         <p class="title">Customer CRM Dashboard</p>
 
-        <!-- KPI Grid -->
         <div class="stats-grid">
             <div class="stat-card">
                 <span class="stat-label">Total Spent</span>
@@ -28,7 +27,6 @@
             </div>
         </div>
 
-        <!-- Bookings History -->
         <p class="title">My Booking History</p>
         <div class="dashboard-table-container">
             {% if sh %}
@@ -49,7 +47,7 @@
                         {% for booking in sh %}
                             <tr>
                                 <td class="font-bold"><a href="/services/{{ booking.service.id }}">{{ booking.service.name }}</a></td>
-                                <td><span class="field-tag">{{ booking.service.field }}</span></td>
+                                <td><span class="user-badge customer-badge">{{ booking.service.field }}</span></td>
                                 <td><a href="/company/{{ booking.service.company.user.username }}">{{ booking.service.company.user.username }}</a></td>
                                 <td>{{ booking.request_date|date:"Y-m-d H:i" }}</td>
                                 <td>{{ booking.hours }} hrs</td>
@@ -89,7 +87,7 @@
                                             </form>
                                         {% endif %}
                                     {% else %}
-                                        <span class="text-secondary">-</span>
+                                        <span class="text-dim">-</span>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -102,10 +100,9 @@
         </div>
 
     {% elif is_company %}
-        <!-- ================= COMPANY DASHBOARD ================= -->
+        <!-- Company Dashboard -->
         <p class="title">Company CRM Dashboard</p>
 
-        <!-- KPI Stats Grid for the Logged-in Company Owner -->
         <div class="stats-grid">
             <div class="stat-card">
                 <span class="stat-label">Total Revenue</span>
@@ -125,7 +122,6 @@
             </div>
         </div>
 
-        <!-- Incoming Service Bookings CRM Table -->
         <p class="title">Incoming Service Requests</p>
         <div class="dashboard-table-container">
             {% if incoming_bookings %}
@@ -173,7 +169,7 @@
                                                 <button type="submit" class="btn-danger btn-sm">Cancel</button>
                                             </form>
                                         {% else %}
-                                            <span class="text-secondary">-</span>
+                                            <span class="text-dim">-</span>
                                         {% endif %}
                                     </div>
                                 </td>
@@ -186,7 +182,6 @@
             {% endif %}
         </div>
 
-        <!-- Customer Relationship Directory CRM Panel -->
         <p class="title">Top Customer Relationships</p>
         <div class="dashboard-table-container">
             {% if crm_customers %}
@@ -215,20 +210,21 @@
             {% endif %}
         </div>
 
-        <!-- Available Services Section -->
         <p class="title">My Available Services Provided</p>
         {% if request.user.is_company %}
-            <a class="create_service" href="/services/create" style="margin-bottom: 30px;"> Create Service</a>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <a class="create_service" href="/services/create"> + Create New Service</a>
+            </div>
         {% endif %}
         <div class="services_list">
             {% if services %}
                 {% for service in services %}
                     <div class="service-item-card">
-                        <div class="card-left">
+                        <div>
                             <h3><a href="/services/{{ service.id }}">{{ service.name }}</a></h3>
                             <pre>{{ service.description }}</pre>
                         </div>
-                        <div class="card-right">
+                        <div>
                             <span class="price-hour-tag">{{ service.price_hour|floatformat:2 }} BHD/hour</span>
                         </div>
                     </div>
@@ -239,10 +235,11 @@
         </div>
 
     {% else %}
-        <!-- ================= GUEST LANDING PAGE ================= -->
-        <div style="margin-top: 20px; text-align: center;">
-            <p class="site_title">NetFix</p>
-            <img class="home_logo" src="/static/css/logo.png" alt="logo">
+        <!-- Guest Landing View -->
+        <div class="hero-banner">
+            <img class="hero-logo" src="/static/css/logo.png" alt="Netfix Logo">
+            <h1 class="site_title">Netfix</h1>
+            <p class="hero-subtitle">Your all-in-one marketplace for professional home maintenance, plumbing, electrical, and cleaning services.</p>
         </div>
 
         <p class="title">Explore Available Services</p>
@@ -250,20 +247,20 @@
             {% if services %}
                 {% for service in services %}
                     <div class="service-item-card">
-                        <div class="card-left">
+                        <div>
                             <h3><a href="/services/{{ service.id }}">{{ service.name }}</a></h3>
                             <pre>{{ service.description }}</pre>
-                            <p style="font-size: small; color: var(--text-secondary); margin: 5px 0 0 0; text-align: left;">
-                                Provided by: <a href="/company/{{ service.company.user.username }}" class="font-bold">{{ service.company.user.username }}</a>
+                            <p style="font-size: 0.88rem; color: var(--text-muted); margin: 8px 0 0 0;">
+                                Provided by <a href="/company/{{ service.company.user.username }}" class="font-bold">{{ service.company.user.username }}</a>
                             </p>
                         </div>
-                        <div class="card-right">
+                        <div style="margin-top: 12px;">
                             <span class="price-hour-tag">{{ service.price_hour|floatformat:2 }} BHD/hour</span>
                         </div>
                     </div>
                 {% endfor %}
             {% else %}
-                <p class="no-data">No services are available yet. Please register/login to add services.</p>
+                <p class="no-data">No services are available yet. Please register or log in to list services.</p>
             {% endif %}
         </div>
     {% endif %}

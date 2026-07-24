@@ -1,21 +1,21 @@
 {% extends 'main/base.html' %}
 {% block title %}
-    {{ user.username }}'s Profile
+    {{ user.username }}'s Profile - Netfix
 {% endblock %}
 
 {% block content %}
     {% if user.is_customer %}
-        <!-- ================= CUSTOMER PROFILE INFO ================= -->
+        <!-- Customer Profile Info -->
         <div class="profile-header-card">
             <div class="user-meta">
                 <span class="user-badge customer-badge">Customer Profile</span>
                 <h1>{{ user.username }}</h1>
                 <p class="email">{{ user.email }}</p>
-                <p class="age-info">Age: {{ user_age }} years old</p>
+                <p class="age-info">{{ user_age }} years old</p>
             </div>
         </div>
 
-        <p class="title">Customer Information</p>
+        <p class="title">Customer Details</p>
         <div class="dashboard-table-container" style="max-width: 600px; margin: 0 auto 40px auto;">
             <table class="dashboard-table">
                 <tbody>
@@ -35,8 +35,7 @@
             </table>
         </div>
 
-        <!-- Bookings History -->
-        <p class="title">Requested Services History</p>
+        <p class="title">Previous Requested Services</p>
         <div class="dashboard-table-container">
             {% if sh %}
                 <table class="dashboard-table">
@@ -52,36 +51,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for booking in sh %}
+                        {% for service in sh %}
                             <tr>
-                                <td class="font-bold"><a href="/services/{{ booking.service.id }}">{{ booking.service.name }}</a></td>
-                                <td><span class="field-tag">{{ booking.service.field }}</span></td>
-                                <td><a href="/company/{{ booking.service.company.user.username }}">{{ booking.service.company.user.username }}</a></td>
-                                <td>{{ booking.request_date|date:"Y-m-d H:i" }}</td>
-                                <td>{{ booking.hours }} hrs</td>
-                                <td class="font-bold text-accent">{{ booking.price|floatformat:2 }} BHD</td>
+                                <td class="font-bold">
+                                    <a href="/services/{{ service.service.id }}">{{ service.service.name }}</a>
+                                </td>
                                 <td>
-                                    <span class="status-badge badge-{{ booking.status|lower }}">{{ booking.status }}</span>
+                                    <span class="user-badge customer-badge">{{ service.service.field }}</span>
+                                </td>
+                                <td>
+                                    <a href="/company/{{ service.service.company.user }}">{{ service.service.company.user }}</a>
+                                </td>
+                                <td>{{ service.request_date|date:"Y-m-d H:i" }}</td>
+                                <td>{{ service.hours }} hrs</td>
+                                <td class="font-bold text-accent">{{ service.price|floatformat:2 }} BHD</td>
+                                <td>
+                                    <span class="status-badge badge-{{ service.status|lower }}">{{ service.status }}</span>
                                 </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <p class="no-data">No requested services history.</p>
+                <p class="no-data">No previous requested services.</p>
             {% endif %}
         </div>
 
     {% else %}
-        <!-- ================= COMPANY PROFILE INFO ================= -->
+        <!-- Company Profile Info -->
         <div class="profile-header-card">
             <div class="user-meta">
                 <span class="user-badge company-badge">Company Profile</span>
                 <h1>{{ user.username }}</h1>
                 <p class="email">{{ user.email }}</p>
-                <p class="field-info">Field: {{ user.company.field }}</p>
-                <div class="company-rating-show">
-                    <span class="label">Average Rating:</span>
+                <p class="field-info">{{ user.company.field }} Provider</p>
+                <div class="company-rating-show" style="margin-top: 10px;">
+                    <span class="label">Rating:</span>
                     {% if user.company.rating %}
                         <div class="star-rating inline">
                             {% for i in "12345" %}
@@ -93,13 +98,13 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        <span class="no-rating">No ratings yet</span>
+                        <span class="text-muted">No ratings yet</span>
                     {% endif %}
                 </div>
             </div>
         </div>
 
-        <p class="title">Company Information</p>
+        <p class="title">Company Details</p>
         <div class="dashboard-table-container" style="max-width: 600px; margin: 0 auto 40px auto;">
             <table class="dashboard-table">
                 <tbody>
@@ -129,18 +134,17 @@
             </table>
         </div>
 
-        <!-- Available Services Section -->
-        <p class="title">Provided Services</p>
+        <p class="title">Available Services Provided</p>
         <div class="services_list">
             {% if services %}
                 {% for service in services %}
-                    <div class="service-item-card">
-                        <div class="card-left">
+                    <div class="service-item-card list_services_profile">
+                        <div>
                             <h3><a href="/services/{{ service.id }}">{{ service.name }}</a></h3>
                             <pre>{{ service.description }}</pre>
                         </div>
-                        <div class="card-right">
-                            <span class="price-hour-tag">{{ service.price_hour|floatformat:2 }} BHD/hour</span>
+                        <div style="margin-top: 12px;">
+                            <span class="price-hour-tag">{{ service.price_hour }} BHD/hour</span>
                         </div>
                     </div>
                 {% endfor %}

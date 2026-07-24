@@ -1,9 +1,12 @@
 {% extends 'main/base.html' %} 
-    {% block title %}
-        Bye bye
-    {% endblock %}
+{% block title %}
+    Logged Out - Netfix
+{% endblock %}
 
 {% block content %}
-    <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 80px;">Bye! Hope to see you soon.</p>
-    <a href="/" style="display: block; text-align: center; margin-top: 60px;">Return to home page</a>
+    <div style="text-align: center; padding: 40px 20px;">
+        <h1 style="font-size: 2.5rem; font-family: var(--font-heading); background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Logged Out Successfully</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-bottom: 40px;">Bye! Hope to see you soon on Netfix.</p>
+        <a href="/" class="btn btn-primary">Return to Home Page</a>
+    </div>
 {% endblock %}
