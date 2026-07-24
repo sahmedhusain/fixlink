@@ -82,24 +82,23 @@ a:hover {
 /* Navigation Bar */
 .navbar {
   position: sticky;
-  top: 16px;
+  top: 0;
   z-index: 1000;
-  width: 92%;
-  max-width: 1200px;
-  margin: 16px auto 0 auto;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
-  border-radius: 50px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+  width: 100%;
+  margin: 0;
+  background: rgba(9, 13, 22, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .navbar ul {
   display: flex;
   align-items: center;
-  margin: 0;
-  padding: 10px 24px;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 14px 24px;
   list-style: none;
 }
 
@@ -129,16 +128,17 @@ a:hover {
   width: auto;
   vertical-align: middle;
   filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
-  transition: transform 0.3s ease;
+  pointer-events: none;
 }
 
 .logo-item {
   padding: 0 !important;
-  margin-right: 12px;
+  margin-right: 16px;
+  cursor: default;
 }
 
-.logo-item:hover .nav-logo {
-  transform: scale(1.06);
+.logo-item:hover {
+  background: transparent !important;
 }
 
 /* Dropdown Menu */
@@ -183,18 +183,16 @@ a:hover {
   color: var(--text-main);
 }
 
-/* Main Container Shell */
+/* Main Content Shell */
 .content {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  margin: 32px auto 48px auto;
-  width: 92%;
-  max-width: 1100px;
-  padding: 40px 48px;
-  box-shadow: var(--card-shadow);
-  border-radius: var(--radius-xl);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  margin: 36px auto 48px auto;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 24px;
   flex: 1;
   animation: fadeIn 0.5s ease-out;
 }
