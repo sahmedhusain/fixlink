@@ -4,11 +4,19 @@
 {% endblock %}
 
 {% block content %}
-    <p class="title">Company Registration</p>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <p class="title" style="margin-bottom: 8px;">Company Registration</p>
+        <p style="color: var(--text-muted); font-size: 1.05rem; margin: 0;">Register your service company to list services and manage bookings</p>
+    </div>
+
     <form method="POST">
         {% csrf_token %}
         {{ form }}
-        <span class="helptext">Choose Field Above</span>
-        <button type="submit" name="register">Register Account</button>
+        <span class="helptext">Choose your field of work above</span>
+        <button type="submit" name="register" style="margin-top: 10px;">Register Company</button>
     </form>
+
+    <div style="text-align: center; margin-top: 24px; color: var(--text-muted); font-size: 0.92rem;">
+        Already have an account? <a href="/register/login/" class="font-bold" style="color: var(--accent-light);">Sign In</a>
+    </div>
 {% endblock %}

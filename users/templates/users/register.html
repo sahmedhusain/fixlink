@@ -1,10 +1,11 @@
 {% extends 'main/base.html' %} 
 {% block title %}
-  Select User Type - Netfix
+  Select Account Type - Netfix
 {% endblock %}
 
 {% block content %}
-    <p class="choice_text">Choose whether you want to register as a Customer or a Company</p>
+    <p class="choice_text">Join Netfix Today</p>
+    <p style="text-align: center; margin-top: -24px; margin-bottom: 36px; color: var(--text-muted); font-size: 1.05rem;">Select your account type to get started with on-demand home services</p>
     
     <div class="choice-container">
         <div class="choice">
@@ -13,7 +14,7 @@
                     <img src="/static/css/company.png" alt="Company Registration">
                 </a>
             </div>
-            <p class="label_images">Company</p>
+            <p class="label_images">Company Account</p>
         </div>
 
         <div class="choice">
@@ -22,7 +23,7 @@
                     <img src="/static/css/customer.png" alt="Customer Registration">
                 </a>
             </div>
-            <p>Customer</p>
+            <p>Customer Account</p>
         </div>
     </div>
 {% endblock %}

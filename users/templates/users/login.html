@@ -4,10 +4,18 @@
 {% endblock %}
 
 {% block content %}
-    <p class="title">Account Login</p>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <p class="title" style="margin-bottom: 8px;">Welcome Back</p>
+        <p style="color: var(--text-muted); font-size: 1.05rem; margin: 0;">Sign in to manage your services and bookings</p>
+    </div>
+
     <form method="POST">
         {% csrf_token %}
         {{ form }}
-        <button type="submit" name="login">Sign In</button>
+        <button type="submit" name="login" style="margin-top: 10px;">Sign In</button>
     </form>
+
+    <div style="text-align: center; margin-top: 24px; color: var(--text-muted); font-size: 0.92rem;">
+        Don't have an account yet? <a href="/register/" class="font-bold" style="color: var(--accent-light);">Register Now</a>
+    </div>
 {% endblock %}
