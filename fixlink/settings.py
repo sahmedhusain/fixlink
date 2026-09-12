@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'netfix.urls'
+ROOT_URLCONF = 'fixlink.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'netfix.wsgi.application'
+WSGI_APPLICATION = 'fixlink.wsgi.application'
 
 
 # Database

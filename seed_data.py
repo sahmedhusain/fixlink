@@ -5,7 +5,7 @@ from datetime import date, timedelta
 from django.utils import timezone
 
 # Setup Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'netfix.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fixlink.settings')
 import django
 django.setup()
 
