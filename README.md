@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/css/logo.png" alt="FixLink Logo" width="140" />
+</p>
+
 # 🔧 FixLink
 
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
@@ -64,7 +68,7 @@ graph TD
     H2 --> I
     H3 --> I
     H4 --> I
-```,StartLine:31,TargetContent:
+```
 
 ---
 
