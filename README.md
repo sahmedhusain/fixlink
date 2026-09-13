@@ -30,6 +30,14 @@
 
 ---
 
+## 🖼️ Application Dashboards
+
+| Customer Workspace | Service Provider Dashboard |
+| :---: | :---: |
+| ![Customer Workspace](static/css/customer.png) | ![Company Workspace](static/css/company.png) |
+
+---
+
 ## 🏗️ System Architecture
 
 ```mermaid
@@ -43,7 +51,8 @@ graph TD
     D1 --> E1[Browse Services / Submit Service Request]
     D2 --> E2[Manage Service Listings / Fulfill Orders]
     
-    E1 & E2 --> F[Django Views & Forms Processing Layer]
+    E1 --> F[Django Views & Forms Processing Layer]
+    E2 --> F
     F --> G[Django ORM Data Models]
     
     G --> H1[User & Customer Profiles]
@@ -51,8 +60,11 @@ graph TD
     G --> H3[Service Offerings]
     G --> H4[RequestedService Orders]
     
-    H1 & H2 & H3 & H4 --> I[(SQLite Database)]
-```
+    H1 --> I[(SQLite Database)]
+    H2 --> I
+    H3 --> I
+    H4 --> I
+```,StartLine:31,TargetContent:
 
 ---
 
